@@ -4,6 +4,10 @@
 .env.*.local
 *.env
 
+# Arquivos do n8n e da documentação do curso (exclusão conforme solicitado pelo usuário)
+n8n_workflow_CORRIGIDO.json
+projeto_final_ia_python_n8n.pdf
+
 # Arquivos de dados e logs locais (evita vazamento de dados de consultas e erros)
 historico.json
 erros.txt

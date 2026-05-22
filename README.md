@@ -9,8 +9,7 @@ O sistema integra-se com a API do **OpenWeatherMap** para obter dados climático
 ## 🚀 Funcionalidades
 
 *   **Consulta de Clima em Tempo Real:** Obtenção de temperatura, umidade e descrição climática de qualquer cidade por meio da OpenWeather API.
-*   **Recomendações com IA:** Integração via Webhook com o **n8n** para processamento de IA generativa, fornecendo dicas de vestuário e atividades sob medida para o clima da cidade.
-*   **Mecanismo de Fallback (Simulação):** Se a API do n8n estiver inacessível ou o Webhook não estiver configurado, o app executa uma lógica de simulação inteligente local para não interromper a experiência do usuário.
+*   **Recomendações com IA Real:** Integração via Webhook com o **n8n** para processamento de IA generativa, retornando as dicas de vestuário e atividades elaboradas pela IA diretamente no seu terminal.
 *   **Histórico de Consultas:** Persistência das últimas 50 consultas em um arquivo estruturado no formato JSON (`historico.json`).
 *   **Registro de Erros (Logs):** Gravação automática de logs de erros e falhas de conexão em um arquivo `.txt` (`erros.txt`) para facilidade de depuração.
 
@@ -22,9 +21,8 @@ O projeto é estruturado de forma modular para garantir manutenibilidade e separ
 
 *   **[`main.py`](main.py):** Orquestrador principal da aplicação. Gerencia o loop da interface de terminal, valida as entradas do usuário, invoca os serviços e exibe as respostas formatadas.
 *   **[`clima_api.py`](clima_api.py):** Módulo de conexão com a API do OpenWeatherMap. Valida a chave de acesso no `.env`, trata as requisições e normaliza os dados de resposta.
-*   **[`n8n_integration.py`](n8n_integration.py):** Módulo responsável pela comunicação HTTP POST com o Webhook do n8n. Contém o tratamento de timeouts e a lógica de fallback da IA simulada localmente.
+*   **[`n8n_integration.py`](n8n_integration.py):** Módulo responsável pela comunicação HTTP POST com o Webhook do n8n. Realiza o envio dos dados do clima para o n8n e captura o retorno real gerado pela Inteligência Artificial.
 *   **[`gerenciador_arquivos.py`](gerenciador_arquivos.py):** Camada de persistência. Contém as funções para salvar/carregar dados em `historico.json` e registrar mensagens de erro com data e hora em `erros.txt`.
-*   **[`n8n_workflow_CORRIGIDO.json`](n8n_workflow_CORRIGIDO.json):** Arquivo de exportação do workflow do n8n pronto para importação na sua instância do n8n.
 
 ---
 
@@ -76,7 +74,7 @@ OPENWEATHER_API_KEY=sua_chave_da_api_openweather
 N8N_WEBHOOK_URL=sua_url_de_webhook_do_n8n
 ```
 
-> **Nota:** Se você não configurar a `N8N_WEBHOOK_URL`, o sistema usará automaticamente a simulação local de IA para fins de demonstração.
+> **Importante:** A URL do Webhook do n8n é obrigatória para obter a resposta da IA. Caso não esteja configurada no `.env`, a aplicação retornará um aviso orientando a configuração.
 
 ---
 
