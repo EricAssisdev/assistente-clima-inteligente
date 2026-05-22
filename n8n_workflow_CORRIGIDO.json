@@ -1,0 +1,93 @@
+{
+  "name": "Projeto Final IA - Assistente de Clima (CORRIGIDO)",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "clima-ia",
+        "options": {}
+      },
+      "id": "8d23473a-0c8c-4406-a60c-21b26b238ba2",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [432, -176],
+      "webhookId": "clima-ia"
+    },
+    {
+      "parameters": {
+        "modelName": "gemini-1.5-flash",
+        "options": {}
+      },
+      "id": "b7ac029c-c410-424a-8b5c-e5edd567ee53",
+      "name": "Google Gemini Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [672, 16]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"recomendacao\": \"{{ $json.output }}\"\n}",
+        "options": {}
+      },
+      "id": "6f9da70c-c3a1-4ef7-90f8-d70613ae82f6",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [1248, -176]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Baseado no clima em {{ $json.body.cidade }} ({{ $json.body.temperatura }}°C, {{ $json.body.descricao }}), dê uma dica de vestuário curta em Português.",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.4,
+      "position": [640, -176],
+      "id": "60d64955-49ca-4bf6-86b6-db4634f4923f",
+      "name": "Basic LLM Chain"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Basic LLM Chain": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  }
+}

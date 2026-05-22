@@ -1,0 +1,42 @@
+# Configurações de ambiente local e segredos
+.env
+.env.local
+.env.*.local
+*.env
+
+# Arquivos de dados e logs locais (evita vazamento de dados de consultas e erros)
+historico.json
+erros.txt
+*.log
+
+# Caches do Python e arquivos compilados
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Ambientes virtuais
+venv/
+.venv/
+env/
+ENV/
+pyvenv.cfg
+
+# Pastas de configuração de IDEs
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+
+# Rascunhos e rascunhos locais
+scratch/
+temp/
+tmp/
+
+# Arquivos do Sistema Operacional
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+.DS_Store
