@@ -5,10 +5,6 @@ from dotenv import load_dotenv
 load_dotenv()
 
 def enviar_para_ia_n8n(dados_clima):
-    """
-    Envia os dados do clima para o n8n via Webhook para obter uma recomendação de IA real.
-    Exige que a URL do Webhook esteja configurada no arquivo .env.
-    """
     webhook_url = os.getenv("N8N_WEBHOOK_URL")
     
     if not webhook_url or "SUA_URL" in webhook_url or not webhook_url.strip():
@@ -26,7 +22,6 @@ def enviar_para_ia_n8n(dados_clima):
         if "application/json" in response.headers.get("Content-Type", ""):
             if response.status_code == 200:
                 resultado = response.json()
-                # Tenta obter a recomendação a partir de campos comuns retornados pelo n8n
                 ia_msg = resultado.get("recomendacao") or resultado.get("output") or resultado.get("text")
                 if ia_msg:
                     return ia_msg
@@ -41,4 +36,3 @@ def enviar_para_ia_n8n(dados_clima):
         return "Erro de Conexão: A requisição ao n8n atingiu o tempo limite (Timeout de 20s). Verifique se o seu servidor n8n está ativo e respondendo."
     except Exception as e:
         return f"Falha Crítica na Conexão com n8n: {e}. Verifique se a URL do Webhook está correta e se há conectividade com a internet."
-

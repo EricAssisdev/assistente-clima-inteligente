@@ -17,10 +17,6 @@ def exibir_menu():
     print("="*40)
 
 def main():
-    """
-    Função principal que coordena o fluxo do programa.
-    Requisito: Entrada de dados, Loops, Condicionais e Funções.
-    """
     while True:
         exibir_menu()
         opcao = input("Escolha uma opção: ")
@@ -28,7 +24,6 @@ def main():
         if opcao == "1":
             cidade = input("\nDigite o nome da cidade: ").strip()
             
-            # Validação simples de entrada
             if not cidade:
                 print("Erro: O nome da cidade não pode estar vazio.")
                 continue
@@ -37,11 +32,9 @@ def main():
             dados = buscar_clima(cidade)
 
             if dados:
-                # Passo 2: Enviar para n8n/IA
                 print("Consultando Inteligência Artificial...")
                 recomendacao = enviar_para_ia_n8n(dados)
                 
-                # Exibir resultados
                 print("\n" + "-"*30)
                 print(f"CIDADE: {dados['cidade']}")
                 print(f"TEMPERATURA: {dados['temperatura']}°C")
@@ -51,7 +44,6 @@ def main():
                 print(f"{recomendacao}")
                 print("-"*30)
 
-                # Passo 3: Salvar no histórico
                 dados["recomendacao_ia"] = recomendacao
                 salvar_historico(dados)
             else:
@@ -63,8 +55,7 @@ def main():
                 print("\nNenhuma consulta encontrada no histórico.")
             else:
                 print("\n--- ÚLTIMAS CONSULTAS ---")
-                # Requisito: Estrutura de repetição (for)
-                for item in historico[-5:]: # Mostra as últimas 5
+                for item in historico[-5:]:
                     print(f"[{item['data_hora']}] {item['cidade']}: {item['temperatura']}°C - {item['descricao']}")
         
         elif opcao == "3":
