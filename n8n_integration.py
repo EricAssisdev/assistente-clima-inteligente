@@ -11,13 +11,8 @@ def enviar_para_ia_n8n(dados_clima):
         return "Erro de Configuração: A variável de ambiente N8N_WEBHOOK_URL não foi configurada ou está vazia no seu arquivo .env. Por favor, configure-a com a URL do seu Webhook do n8n para obter o retorno real da IA."
 
     webhook_url = webhook_url.strip()
-    print(f"DEBUG: Enviando dados do clima para o n8n ({webhook_url})...")
     try:
-        import time
-        start_time = time.time()
         response = requests.post(webhook_url, json=dados_clima, timeout=20)
-        duration = time.time() - start_time
-        print(f"DEBUG: Resposta do n8n recebida em {duration:.2f}s (Status: {response.status_code})")
         
         if "application/json" in response.headers.get("Content-Type", ""):
             if response.status_code == 200:
